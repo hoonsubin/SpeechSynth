@@ -9,15 +9,19 @@ namespace SpeechSynth
     {
         static void Main(string[] args)
         {
-            // Read the file as one string.
-            string text = File.ReadAllText(@"Please input the location of the text file");
+            Console.WriteLine("Please provide the location of the file:");
+            string fullDir = Console.ReadLine();
+            string fileName = Path.GetFileName(fullDir);
+            // Read the file as a single string.
+            string text = File.ReadAllText(fullDir);
+            string cleanText = text.Replace("~", "");
 
             // Initialize a new instance of the SpeechSynthesizer.  
             using (SpeechSynthesizer synth = new SpeechSynthesizer())
             {
                 synth.SelectVoiceByHints(VoiceGender.Female);
                 Console.WriteLine("Creating voice file...");
-                SaveTextToSpeech("title", synth, text);
+                SaveTextToSpeech(fileName, synth, cleanText);
             }
 
             Console.WriteLine();
